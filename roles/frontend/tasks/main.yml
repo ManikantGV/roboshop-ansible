@@ -1,0 +1,41 @@
+
+#print_head "enable and restart nginx"
+#  #some files needs to create
+#systemctl enable nginx &>>$log_file
+#stat_check $?
+#systemctl restart nginx &>>$log_file
+#stat_check $?
+#
+#print_head "Frontend script completed"
+
+- name: Install the nginx
+  ansible.builtin.yum:
+    name: nginx
+    state: installed
+
+- name: Copy file with owner and permissions
+  ansible.builtin.copy:
+    src: roboshop.conf
+    dest: /etc/nginx/default.d/roboshop.conf
+
+- name: removing the nginx default folder
+  ansible.builtin.file:
+    path: /usr/share/nginx/html/
+    state: absent
+
+- name: removing the nginx default folder
+  ansible.builtin.file:
+    path: /usr/share/nginx/html/
+    state: absent
+
+- name: Create a nginx default folder
+  ansible.builtin.file:
+    path: /usr/share/nginx/html/
+    state: directory
+
+- name: Unarchive a frontend files file and placing into destination folder
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
+    dest: /usr/share/nginx/html/
+    remote_src: yes
+

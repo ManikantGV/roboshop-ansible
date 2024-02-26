@@ -18,8 +18,11 @@
 - name:  enabling the reload services
   ansible.builtin.shell: systemctl daemon-reload
 
-- name:  enabling the component services
-  ansible.builtin.shell: systemctl enable {{component}|
+- name:  enabling the {{component}} services
+  ansible.builtin.systemd:
+    name: {{component}}
+    state: restarted
+    enabled: true
+    deamon_reload: true
 
-- name: enabling the component services
-  ansible.builtin.shell: systemctl restart {{component}|
+

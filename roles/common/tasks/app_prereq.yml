@@ -1,0 +1,18 @@
+- name: Add the user 'roboshop ' with a specific uid and a primary group of 'admin'
+  ansible.builtin.user:
+    name: "{{app_user}}"
+
+- name: removing the app default folder
+  ansible.builtin.file:
+    path: /app
+    state: absent
+
+- name: Create a nginx default folder
+  ansible.builtin.file:
+    path: /app
+    state: directory
+- name: Unarchive a frontend files file and placing into destination folder
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/{{component}}.zip
+    dest: /app
+    remote_src: yes

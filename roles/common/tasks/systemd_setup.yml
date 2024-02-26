@@ -1,0 +1,25 @@
+#print_head "copying component the service "
+#cp ${script_path}/${component}.service /etc/systemd/system/${component}.service &>>$log_file
+#stat_check $?
+#
+#print_head "enabling the catalogue service"
+#systemctl daemon-reload &>>$log_file
+#stat_check $?
+#systemctl enable ${component} &>>$log_file
+#stat_check $?
+#systemctl restart ${component} &>>$log_file
+#stat_check $?
+
+- name: Setup systemd service file
+  ansible.builtin.template:
+    src: "{{component}}.service"
+    dest: /etc/systemd/system/{{component}}.service
+
+- name:  enabling the reload services
+  ansible.builtin.shell: systemctl daemon-reload
+
+- name:  enabling the component services
+  ansible.builtin.shell: systemctl enable {{component}|
+
+- name: enabling the component services
+  ansible.builtin.shell: systemctl restart {{component}|

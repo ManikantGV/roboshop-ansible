@@ -7,11 +7,12 @@
     path: /app
     state: absent
 
-- name: Create a nginx default folder
+- name: Create a app default folder
   ansible.builtin.file:
     path: /app
     state: directory
-- name: Unarchive a frontend files file and placing into destination folder
+
+- name: Unarchive a component files file and placing into destination folder
   ansible.builtin.unarchive:
     src: https://roboshop-artifacts.s3.amazonaws.com/{{component}}.zip
     dest: /app

@@ -1,0 +1,37 @@
+#  print_head "installing mavin repos"
+#    dnf install maven -y  &>>$log_file
+#    stat_check $?
+#
+#    app_prereq
+#
+#    print_head "clenaing the maven package and routed out application "
+#    mvn clean package  &>>$log_file
+#    stat_check $?
+#    mv target/${component}-1.0.jar ${component}.jar  &>>$log_file
+#    stat_check $?
+#
+#    schema_setup
+#    systemd
+#
+
+- name: Install maven
+  ansible.builtin.yum:
+    name: maven
+    state: installed
+
+- name: Include task app_prereq
+  ansible.builtin.import_tasks:
+    file: app_prereq.yml
+
+- name: Download Maven dependences
+  ansible.builtin.shell: mvn clean package ; mv target/${component}-1.0.jar ${component}.jar
+  args:
+    chdir: /app
+
+- name: Include task schema_setup
+  ansible.builtin.import_tasks:
+    file: schema_setup.yml
+
+- name: Include task Systemd_setup
+  ansible.builtin.import_tasks:
+    file: systemd_setup.yml

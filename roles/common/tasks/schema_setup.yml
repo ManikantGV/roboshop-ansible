@@ -1,5 +1,5 @@
 - name: Load mongodb schema
-  when: schema_setup=="mongo"
+  when: schema_setup == "mongo"
   block:
     - name: copy Mongodb repo file
       ansible.builtin.copy:
@@ -15,7 +15,7 @@
       ansible.builtin.shell: mongo --host {{ lookup('aws_ssm', 'dev.catalogue.mongodb_endpoint', region='us-east-1' ) }} </app/schema/{{component}}.js
 
 - name: Load mysql schema
-  when: schema_setup=="mysql"
+  when: schema_setup == "mysql"
   block:
     - name: Install MySql client
       ansible.builtin.yum:

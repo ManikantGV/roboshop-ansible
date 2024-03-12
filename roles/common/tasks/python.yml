@@ -14,7 +14,7 @@
 #
 #systemd
 
-- name: Install maven
+- name: Install python
   ansible.builtin.yum:
     name:
       - python36

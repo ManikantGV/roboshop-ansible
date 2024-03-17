@@ -1,24 +1,19 @@
-
-#print_head "enable and restart nginx"
-#  #some files needs to create
-#systemctl enable nginx &>>$log_file
-#stat_check $?
-#systemctl restart nginx &>>$log_file
-#stat_check $?
-#
-#print_head "Frontend script completed"
-
 - name: Install the nginx
   ansible.builtin.yum:
     name: nginx
     state: installed
 
-- name: Copy file with owner and permissions
+- name: Copy roboshop-config file
   ansible.builtin.template:
     src: roboshop.conf
     dest: /etc/nginx/default.d/roboshop.conf
 
-- name: removing the nginx default folder
+- name: Copy Nginx file
+  ansible.builtin.template:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: clean old app content
   ansible.builtin.file:
     path: /usr/share/nginx/html/
     state: absent
